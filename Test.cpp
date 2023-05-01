@@ -10,23 +10,22 @@ using namespace std;
 
 TEST_CASE("1-Good initialization in constructor"){
     CHECK_NOTHROW(Fraction(1,2));
-    CHECK_NOTHROW(Fraction(0.567));
+    CHECK_NOTHROW(Fraction(0.25));
     Fraction frac(1,2);
-    Fraction flt(0.567);
+    Fraction flt(0.25);
     // numinator =1, denominator=2
     CHECK((typeid(frac.getNuminator()).name()==typeid(int).name() && typeid(frac.getDenom()).name()==typeid(int).name()));
-    // numinator= 567, denominator = 1000
+    // numinator= 25, denominator = 100 - not in reduced form 
     CHECK((typeid(flt.getNuminator()).name()==typeid(int).name() && typeid(flt.getDenom()).name()==typeid(int).name()));
-    
 }
 
 
-TEST_CASE("THROW if denominator is 0 in constructor"){
+TEST_CASE("2-THROW if denominator is 0 in constructor"){
     CHECK_THROWS(Fraction(1,0));
     CHECK_THROWS(Fraction(0,0));
 }
 
-TEST_CASE("CHECK + operation reduced form"){
+TEST_CASE("3-CHECK + operation reduced form"){
        Fraction frac1(1,2);
        Fraction frac2(3,4);
        float flt=0.4;
@@ -39,7 +38,7 @@ TEST_CASE("CHECK + operation reduced form"){
 
 }
 
-TEST_CASE("CHECK - operation reduced form"){
+TEST_CASE("4-CHECK - operation reduced form"){
     Fraction frac1(1,3);
     Fraction frac2(3,4);
     float flt=0.4;
@@ -52,7 +51,7 @@ TEST_CASE("CHECK - operation reduced form"){
 
 }
 
-TEST_CASE("CHECK * operation reduced form"){
+TEST_CASE("5-CHECK * operation reduced form"){
     Fraction frac1(1,3);
     Fraction frac2(3,4);
     float flt=0.4;
@@ -65,7 +64,7 @@ TEST_CASE("CHECK * operation reduced form"){
 
 }
 
-TEST_CASE("CHECK / operation reduced form"){
+TEST_CASE("6-CHECK / operation reduced form"){
     Fraction frac1(2,4);
     Fraction frac2(3,2);
     float flt=0.01;
@@ -77,41 +76,13 @@ TEST_CASE("CHECK / operation reduced form"){
     CHECK((frac3.getNuminator()==1 && frac3.getDenom()==3));
     CHECK((frac4.getNuminator()==50 && frac4.getDenom()==1));
     CHECK((frac5.getNuminator()==1 && frac5.getDenom()==150));
-    CHECK(frac3== 4/12); // both equal to 1/3
-    CHECK(frac4== 100/2); // both equal to 50/1
-    CHECK(frac5== 2/300); // both equal to 1/150
     CHECK(Fraction(flt)== 1/100); // float is converted to fraction in the constuctor. 
     
 
 }
 
 
-// TEST_CASE("CHECK EQUALITY == THROWS"){
-//     Fraction frac1(1,2);
-//     Fraction frac2(12,36);
-//     float flt=0.567;
-// }
-
-
-TEST_CASE("CHECK EQUALITY when not reduced or float"){
-    // fraction,fraction
-    CHECK((Fraction(1,2)==Fraction(2,4)));
-    // CHECK((Fraction(12,36)==Fraction(1,3))); // same as first
-    CHECK((Fraction(1,2)==Fraction(0.5)));
-
-    
-    // float,fraction
-    CHECK(0.5==Fraction(0.5)); 
-    CHECK(0.344==Fraction(3442,10000));
-    CHECK(0.831==Fraction(54,65)); // 54/65 == 0.83076..08 == 0.831
-    // fraction,float
-    CHECK(Fraction(1,3)==0.333); // round
-    CHECK(Fraction(333,1000)==0.333);
-
-
-}
-
-TEST_CASE("CHECK dividing with 0"){
+TEST_CASE("8- CHECK dividing with 0"){
     Fraction frac1(1,3);
     float flt=0.400;
     Fraction frac2= frac1/flt; 
@@ -126,17 +97,78 @@ TEST_CASE("CHECK dividing with 0"){
     CHECK_THROWS((flt/(Fraction(1,1)-Fraction(1,1))));
 }
 
-//should compile
-TEST_CASE("CHECK not dividing with 0 - according to Order of operations "){
+
+
+
+TEST_CASE("?- CHECK not dividing with 0 - according to Order of operations "){
     CHECK_NOTHROW(Fraction(1,1)/Fraction(1,1) - Fraction(1,1));
     CHECK_NOTHROW(Fraction(1,1)- Fraction(1,1)/Fraction(1,1) );
 
 }
 
 
+TEST_CASE("?- CHECK EQUALITY when not reduced or float"){
+    // fraction,fraction
+    CHECK((Fraction(1,2)==Fraction(2,4)));
+    CHECK((Fraction(1,2)==Fraction(0.5)));
+    // float,fraction
+    CHECK(0.5==Fraction(0.5)); 
+    CHECK(0.344==Fraction(3442,10000));
+    CHECK(0.831==Fraction(54,65)); // 54/65 == 0.83076..08 == 0.831
+    // fraction,float
+    CHECK(Fraction(1,3)==0.333); // round
+    CHECK(Fraction(333,1000)==0.333);
+
+
+}
+
+
+TEST_CASE("?-check < operaotor"){
+    Fraction frac(2,7);
+    float flt= 0.25;
+    Fraction arit_frac1=flt+frac;
+    Fraction arit_frac2=frac-flt;
+    Fraction arit_frac3=frac*flt;
+    Fraction arit_frac4=frac/flt;
+    CHECK(Fraction(flt)<frac);
+    CHECK(flt<frac);
+    //with aritmentic operations
+    CHECK(frac<arit_frac1);
+    CHECK(arit_frac2<flt); // since arit_frac2=2/7-1/4=1/28
+    CHECK_FALSE(flt<arit_frac3); // since arit_frac3=2/7*1/4=1/14
+    CHECK_FALSE(arit_frac4<flt);// since arit_frac4=8/7
+    CHECK_FALSE(arit_frac4<frac);
+    
+}
+
+TEST_CASE("?-check > operaotor"){
+
+
+
+}
+
+
+
+TEST_CASE("?-check >= operaotor"){
+
+
+
+}
+
+TEST_CASE("?-check <= operaotor"){
+
+
+
+}
+
+TEST_CASE("?-check prefix and postfix"){
+
+}
+
+
 
 //up to 3 digits beyond decimal point
-TEST_CASE("round float numbers - aritmetic"){
+TEST_CASE("?- round float numbers - aritmetic"){
     float flt=0.0999;
     Fraction frac(1,2);
     Fraction frac_arit1=frac+flt;
