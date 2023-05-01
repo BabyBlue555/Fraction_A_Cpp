@@ -8,11 +8,15 @@
 using namespace ariel;
 using namespace std;
 
-TEST_CASE("Good initialization in constructor"){
-    Fraction a(1,2);
+TEST_CASE("1-Good initialization in constructor"){
     CHECK_NOTHROW(Fraction(1,2));
-    CHECK((typeid(a.getNuminator()).name()==typeid(int).name() && typeid(a.getDenom()).name()==typeid(int).name()));
     CHECK_NOTHROW(Fraction(0.567));
+    Fraction frac(1,2);
+    Fraction flt(0.567);
+    // numinator =1, denominator=2
+    CHECK((typeid(frac.getNuminator()).name()==typeid(int).name() && typeid(frac.getDenom()).name()==typeid(int).name()));
+    // numinator= 567, denominator = 1000
+    CHECK((typeid(flt.getNuminator()).name()==typeid(int).name() && typeid(flt.getDenom()).name()==typeid(int).name()));
     
 }
 
@@ -90,15 +94,20 @@ TEST_CASE("CHECK / operation reduced form"){
 
 
 TEST_CASE("CHECK EQUALITY when not reduced or float"){
+    // fraction,fraction
     CHECK((Fraction(1,2)==Fraction(2,4)));
-    CHECK((Fraction(12,36)==Fraction(1,3)));
-    CHECK((Fraction(24,12)==2/1)); // ????
+    // CHECK((Fraction(12,36)==Fraction(1,3))); // same as first
     CHECK((Fraction(1,2)==Fraction(0.5)));
+
     
-    // check this again
-    CHECK_FALSE(Fraction(1,3)==0.333);
-    CHECK(0.5==Fraction(0.5)); // float,fraction
-    CHECK(Fraction(333,1000)==0.333);// fraction,float
+    // float,fraction
+    CHECK(0.5==Fraction(0.5)); 
+    CHECK(0.344==Fraction(3442,10000));
+    CHECK(0.831==Fraction(54,65)); // 54/65 == 0.83076..08 == 0.831
+    // fraction,float
+    CHECK(Fraction(1,3)==0.333); // round
+    CHECK(Fraction(333,1000)==0.333);
+
 
 }
 
@@ -127,20 +136,25 @@ TEST_CASE("CHECK not dividing with 0 - according to Order of operations "){
 
 
 //up to 3 digits beyond decimal point
-TEST_CASE("round float numbers"){
-    float flt1=0.25;
-    float flt2=0.0999;
+TEST_CASE("round float numbers - aritmetic"){
+    float flt=0.0999;
     Fraction frac(1,2);
-    Fraction new_frac1=frac+flt2;
-    Fraction new_frac2=flt2-frac;
-    Fraction new_frac3(flt1,flt2);
-
+    Fraction frac_arit1=frac+flt;
+    Fraction frac_arit2=flt-frac;
+   // Fraction new_frac3(flt1,flt2); // forbidden! num,den have to be int
+    Fraction frac_arit3=flt/frac;
+    Fraction frac_arit4=frac*flt;
     
 
     // the outcome is 1.499 == 1.500 == 3/2
-    CHECK((new_frac2.getNuminator()==3 && new_frac2.getDenom()==2));
+    CHECK((frac_arit1.getNuminator()==3 && frac_arit1.getDenom()==2));
     // the outcome is -0.4001 == -0.400 == -2/5
-    CHECK((new_frac2.getNuminator()==-2 && new_frac2.getDenom()==5));
+    CHECK((frac_arit2.getNuminator()==-2 && frac_arit2.getDenom()==5));
+    // the outcome is 0.1998 == 0.200 == 1/5
+    CHECK((frac_arit3.getNuminator()==1 && frac_arit3.getDenom()==5));
+    // the outcome is 0.04995 == 0.050 == 5/100 == 1/20
+    CHECK((frac_arit4.getNuminator()==1 && frac_arit4.getDenom()==20));
+
 
 }
 
