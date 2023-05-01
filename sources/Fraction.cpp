@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <cmath>
 #include "Fraction.hpp"
 using namespace std;
 using namespace ariel;
@@ -13,11 +14,33 @@ Fraction::Fraction(): numerator(0), denominator(1) {}
 Fraction::Fraction( int _numerator,
         int _denominator):
         numerator(_numerator),denominator(_denominator){
+            if(_denominator==0){
+                throw invalid_argument("denominator is 0");
+            }
+            if(typeid(_numerator).name()!=typeid(int).name() || typeid(_denominator).name()!=typeid(int).name()){
+                __throw_bad_typeid(); 
+                // or: throw ("numerator and denominator have to be from type int)
+            }
+
+            if(_numerator<0 && _denominator<0 || _denominator<0){
+                numerator *= -1;
+                denominator *= -1;
+            }
+
 
         }
 
 Fraction::Fraction(float flt){
     // convert from float to fraction
+    int power=1;
+    float cpy=flt;
+   
+    while(std::fmod(cpy, 1.0)){ // as long as the decimal value isn't 0 
+        power *=10;
+        cpy*=10;
+    }
+    this->numerator=flt*power;
+    this->denominator=power;
 }
 
 
