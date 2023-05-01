@@ -8,15 +8,11 @@ using namespace std;
 using namespace ariel;
 
 
-// Fraction::Fraction(int num1,int num2):
-// numinator(num1),denominator(num2)
-// {
+Fraction::Fraction(): numerator(0), denominator(1) {}
 
-// }
-
-Fraction::Fraction( int _numinator,
+Fraction::Fraction( int _numerator,
         int _denominator):
-        numinator(_numinator),denominator(_denominator){
+        numerator(_numerator),denominator(_denominator){
 
         }
 
@@ -83,7 +79,7 @@ Fraction operator/ (const float& flo1, const Fraction& frac2){
 
 // EQUALITY COMPARISON
 bool operator==(const Fraction& frac1, const Fraction& frac2){
-    return frac1.numinator==frac2.numinator && frac1.denominator==frac2.denominator;
+    return frac1.numerator==frac2.numerator && frac1.denominator==frac2.denominator;
     // add another case when one of the fractions aren't reduced
 }
 
@@ -98,7 +94,7 @@ bool operator==(const float& flo2, const Fraction& frac2){
 
 // BIGGER COMPARISON
 bool operator> (const Fraction& frac1, const Fraction& frac2){
-    return frac1.numinator>frac2.numinator;
+    return frac1.numerator>frac2.numerator;
     // add another case when one of the fractions aren't reduced
 }
 bool operator> (const Fraction& frac1, const float& flo2){
@@ -110,7 +106,7 @@ bool operator> (const float& flo1, const Fraction& frac2){
 
 // SMALLER COMPARISON
 bool operator< (const Fraction& frac1, const Fraction& frac2){
-     return frac1.numinator<frac2.numinator;
+     return frac1.numerator<frac2.numerator;
     // add another case when one of the fractions aren't reduced
 }
 bool operator< (const Fraction& frac1, const float& flo2){
@@ -123,7 +119,7 @@ bool operator< (const float& flo1, const Fraction& frac2){
 // BIGGER-EQUAL COMPARISON
 
 bool operator>= (const Fraction& frac1, const Fraction& frac2){
-    return frac1.numinator>=frac2.numinator;
+    return frac1.numerator>=frac2.numerator;
     // add another case when one of the fractions aren't reduced
 }
 bool operator>= (const Fraction& frac1, const float& flo2){
@@ -135,7 +131,7 @@ bool operator>= (const float& flo1, const Fraction& frac2){
 
 // SMALLER-EQUAL COMPARISON
 bool operator<= (const Fraction& frac1, const Fraction& frac2){
-     return frac1.numinator<=frac2.numinator;
+     return frac1.numerator<=frac2.numerator;
     // add another case when one of the fractions aren't reduced
 }
 bool operator<= (const Fraction& frac1, const float& flo2){
@@ -150,7 +146,7 @@ bool operator<= (const float& frac1, const Fraction& flo2){
 //print a fraction to an output stream
 std::ostream& operator<< (std::ostream& output, const Fraction& frac){
     //return cout<<"hello";
-    return (output << frac.numinator << '+' << frac.denominator<< 'i');
+    return (output << frac.numerator << '+' << frac.denominator<< 'i');
 }
 
 //read a fraction from an input stream
