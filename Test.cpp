@@ -17,6 +17,7 @@ TEST_CASE("1-Good initialization in constructor"){
     CHECK((typeid(frac.getNuminator()).name()==typeid(int).name() && typeid(frac.getDenom()).name()==typeid(int).name()));
     // numinator= 25, denominator = 100 - not in reduced form 
     CHECK((typeid(flt.getNuminator()).name()==typeid(int).name() && typeid(flt.getDenom()).name()==typeid(int).name()));
+    
 }
 
 
@@ -76,13 +77,13 @@ TEST_CASE("6-CHECK / operation reduced form"){
     CHECK((frac3.getNuminator()==1 && frac3.getDenom()==3));
     CHECK((frac4.getNuminator()==50 && frac4.getDenom()==1));
     CHECK((frac5.getNuminator()==1 && frac5.getDenom()==150));
-    CHECK(Fraction(flt)== 1/100); // float is converted to fraction in the constuctor. 
+  //  
     
 
 }
 
 
-TEST_CASE("8- CHECK dividing with 0"){
+TEST_CASE("7- CHECK dividing with 0"){
     Fraction frac1(1,3);
     float flt=0.400;
     Fraction frac2= frac1/flt; 
@@ -100,17 +101,17 @@ TEST_CASE("8- CHECK dividing with 0"){
 
 
 
-TEST_CASE("?- CHECK not dividing with 0 - according to Order of operations "){
+TEST_CASE("8- CHECK not dividing with 0 - according to Order of operations "){
     CHECK_NOTHROW(Fraction(1,1)/Fraction(1,1) - Fraction(1,1));
     CHECK_NOTHROW(Fraction(1,1)- Fraction(1,1)/Fraction(1,1) );
 
 }
 
 
-TEST_CASE("?- CHECK EQUALITY when not reduced or float"){
+TEST_CASE("9- CHECK EQUALITY when not reduced or float"){
     // fraction,fraction
     CHECK((Fraction(1,2)==Fraction(2,4)));
-    CHECK((Fraction(1,2)==Fraction(0.5)));
+    CHECK((Fraction(1,2)==Fraction(0.5)));// float is converted to fraction in the constuctor.
     // float,fraction
     CHECK(0.5==Fraction(0.5)); 
     CHECK(0.344==Fraction(3442,10000));
@@ -123,52 +124,81 @@ TEST_CASE("?- CHECK EQUALITY when not reduced or float"){
 }
 
 
-TEST_CASE("?-check < operaotor"){
-    Fraction frac(2,7);
+TEST_CASE("10-check < and > operaotors"){
+    Fraction frac(1,3);
     float flt= 0.25;
     Fraction arit_frac1=flt+frac;
-    Fraction arit_frac2=frac-flt;
+    Fraction arit_frac2=flt-frac; // negative
     Fraction arit_frac3=frac*flt;
     Fraction arit_frac4=frac/flt;
     CHECK(Fraction(flt)<frac);
     CHECK(flt<frac);
     //with aritmentic operations
     CHECK(frac<arit_frac1);
-    CHECK(arit_frac2<flt); // since arit_frac2=2/7-1/4=1/28
-    CHECK_FALSE(flt<arit_frac3); // since arit_frac3=2/7*1/4=1/14
-    CHECK_FALSE(arit_frac4<flt);// since arit_frac4=8/7
+    CHECK_FALSE(frac>arit_frac1);
+    CHECK(arit_frac2<flt); // since arit_frac2=1/4-1/3=-1/12
+    CHECK_FALSE(arit_frac2>flt);
+    CHECK_FALSE(flt<arit_frac3); // since arit_frac3=1/3*1/4=1/12
+    CHECK(flt>arit_frac3);
+    CHECK_FALSE(arit_frac4<flt);// since arit_frac4=4/3
+    CHECK(arit_frac4>flt);
     CHECK_FALSE(arit_frac4<frac);
+    CHECK(arit_frac4>frac);
+
     
 }
 
-TEST_CASE("?-check > operaotor"){
+
+
+TEST_CASE("11-check >= and <= operaotors"){
 
 
 
 }
 
 
+TEST_CASE("12-check postfix"){
+    Fraction frac1(3,9);
+    // increment
+    Fraction frac2= frac1++; // frac2=3/9=1/3 , frac1=12/9=4/3
+    CHECK((frac1.getNuminator()==4 && frac1.getDenom()==3)); // frac1 incremented by 1
+    CHECK((frac2.getNuminator()==1 && frac2.getDenom()==3)); // frac2=frac1 before increment   
+    CHECK_FALSE(frac1==frac2++); // frac1=4/3,frac2=1/3
+    CHECK(frac1++==frac2); // both are 4/3 now
+    CHECK_FALSE(frac1==frac2);//frac1=7/3,frac2=4/3
 
-TEST_CASE("?-check >= operaotor"){
-
-
+    // decrement
+    CHECK_FALSE(frac1--==frac2);//frac1=7/3,frac2=4/3
+    CHECK(frac1--==frac2);//both are 4/3 now
+    CHECK_FALSE(frac1==frac2--);//frac1=1/3,frac2=4/3
+    CHECK(frac1--==frac2); // both are 1/3 now
+    CHECK_FALSE(frac1==frac2); //frac1=-2/3,frac2=1/3
 
 }
 
-TEST_CASE("?-check <= operaotor"){
 
+TEST_CASE("13-check prefix"){
+    Fraction frac1(3,9);
+    // increment
+    Fraction frac2= ++frac1; // frac2=12/9=4/3 , frac1=12/9=4/3
+    CHECK((frac1.getNuminator()==4 && frac1.getDenom()==3)); // frac1 incremented by 1
+    CHECK((frac2.getNuminator()==4 && frac2.getDenom()==3)); // frac2=frac1 after increment   
+    CHECK_FALSE(frac1++==++frac2); //frac1=4/3, frac2=7/3
+    CHECK(frac1++==frac2); // both 7/3
+    CHECK(frac1==++frac2); // both 10/3
 
-
-}
-
-TEST_CASE("?-check prefix and postfix"){
-
+    // decrement
+    --frac1;
+    CHECK(frac1==frac2-1); // both 7/3
+    CHECK_FALSE(frac1==frac2--); // frac1=7/3,frac2=10/3
+    CHECK_FALSE(frac1==--frac2); // frac1=7/3,frac2=4/3
+    CHECK(--frac1==frac2); // both 4/3
 }
 
 
 
 //up to 3 digits beyond decimal point
-TEST_CASE("?- round float numbers - aritmetic"){
+TEST_CASE("14- round float numbers - aritmetic"){
     float flt=0.0999;
     Fraction frac(1,2);
     Fraction frac_arit1=frac+flt;
@@ -191,4 +221,26 @@ TEST_CASE("?- round float numbers - aritmetic"){
 }
 
 
-// which tests can i do for the << and >>
+//The << operator to print a fraction to an output stream in the format “numerator/denominator”.
+//The >> operator to read a fraction from an input stream by taking two integers as input.
+TEST_CASE("15- input and output streams"){
+       ostringstream output;
+       Fraction frac(0.333);
+       CHECK_THROWS(output << 0.333);
+       CHECK_NOTHROW(output << frac);
+       CHECK_EQ(output.str(),"333/1000");
+
+       istringstream input("3,5");
+       istringstream wrong_inp1("1.7,1.7");
+       istringstream wrong_inp2("500");
+       istringstream wrong_inp3("1,1,1,1");
+       istringstream wrong_inp4("hello");
+       CHECK_NOTHROW(input >> frac); 
+       CHECK((frac.getNuminator()==3 && frac.getDenom()==5)); // 333/1000 becomes 3/5
+       // input should only be two integers
+       CHECK_THROWS(wrong_inp1 >> frac );
+       CHECK_THROWS(wrong_inp2 >> frac );
+       CHECK_THROWS(wrong_inp3 >> frac );
+       CHECK_THROWS(wrong_inp4 >> frac );
+
+}
