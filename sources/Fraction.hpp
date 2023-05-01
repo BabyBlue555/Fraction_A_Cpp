@@ -16,17 +16,18 @@ namespace ariel{
 
     class Fraction {
         private:
-            int numinator;
+            int numerator;
             int denominator;
 
 
         public:
 
-            Fraction( int _numinator,int _denominator);
+            // outline constructors
+            Fraction();
+            Fraction( int _numerator,int _denominator);
             Fraction(float flt);
-            //Fraction(int,int ); // outline
             int getNuminator() const{
-                return numinator;
+                return numerator;
             }
 
             int getDenom() const{
@@ -82,20 +83,20 @@ namespace ariel{
             
             // prefix increment: returns the fraction after increment
             Fraction& operator++() {
-                numinator++;
+                numerator++;
                 return *this;
             }
 
             // postfix increment: returns copy of the fraction - its value before increment
             Fraction operator++(int dummy_flag_for_postfix_increment) {
                 Fraction copy = *this;
-                numinator++;
+                numerator++;
                 return copy;
             }
 
             // prefix decrease
              Fraction& operator--() {
-                numinator--;
+                numerator--;
                 return *this;
             }
 
@@ -103,7 +104,7 @@ namespace ariel{
             // postfix decrease
              Fraction operator--(int dummy_flag_for_postfix_increment) {
                 Fraction copy = *this;
-                numinator--;
+                numerator--;
                 return copy;
             }
 
