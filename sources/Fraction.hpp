@@ -26,6 +26,7 @@ namespace ariel{
             Fraction();
             Fraction( int _numerator,int _denominator);
             Fraction(float flt);
+
             int getNuminator() const{
                 return numerator;
             }
@@ -34,8 +35,13 @@ namespace ariel{
                 return denominator;
             }
 
-            
-            
+            // returns the Least common multiple
+            int lcm(const Fraction& frac1, const Fraction& frac2);
+            // returns the greatest common divisor of the fractions
+            // int gcd(int num,int denom);
+            // returns the Least common multiple
+            Fraction reduced();
+
             // add
             friend Fraction operator+ (const Fraction& frac1, const Fraction& frac2);
             friend Fraction operator+ (const Fraction& frac1, const float& flo2);

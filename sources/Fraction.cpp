@@ -43,6 +43,18 @@ Fraction::Fraction(float flt){
     this->denominator=power;
 }
 
+int Fraction::lcm(const Fraction& frac1, const Fraction& frac2){
+    return 1;
+}
+
+//  int Fraction::gcd(int num,int denom){
+
+//  }
+
+  Fraction Fraction::reduced(){
+    return 1;
+  }
+
 
 
 // ADD
