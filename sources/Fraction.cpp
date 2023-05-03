@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <cmath>
 #include "Fraction.hpp"
 using namespace std;
 using namespace ariel;
@@ -43,84 +42,94 @@ Fraction::Fraction(float flt){
     }
     this->numerator=cpy;
     this->denominator=power;
+
+    //reduced(numerator,denominator);
+
 }
 
-int Fraction::lcm(const Fraction& frac1, const Fraction& frac2){
-    return 1;
+
+// int Fraction::lcm(int denom1, int denom2 ){
+//     int _lcm=(denom1 / __gcd(denom1, denom2)) * denom2;
+//     return _lcm ;
+// }
+
+void Fraction::reduced(int& numerator, int& denominator){
+int gcd=__gcd(abs(numerator), abs(denominator));
+                numerator /= gcd;
+                denominator /=gcd;
 }
-
-//  int Fraction::gcd(int num,int denom){
-
-//  }
-
-  Fraction Fraction::reduced(){
-    return 1;
-  }
 
 
 
 // ADD
-Fraction operator+ (const Fraction& frac1, const Fraction& frac2){
+const Fraction Fraction::operator+ (const Fraction& other) const{
     // return Fraction(c1.numinator+c2.numinator,)
+    // int _lcm=lcm(frac1.getDenom(), frac2.getDenom());
+    // int new_numr=frac1.getNuminator()*(_lcm/frac1.getDenom())+frac2.getNuminator()*(_lcm/frac2.getDenom());
+    // int new_denom=_lcm;
+    
     return Fraction(1,1);
+    //reduced(new_numr,new_denom);
  }
 
-Fraction operator+ (const Fraction& frac1, const float& flo2){
+const Fraction Fraction::operator+ (const float& _float) const{
     // return Complex(_re + other._re, _im + other._im);
     //return Fraction(c1.numinator+c)
+    
     return Fraction(1,1);
+
 
 }
 
-Fraction operator+ (const float& flo1, const Fraction& frac2){
+const Fraction operator+ (const float& flo1, const Fraction& frac2){
     return Fraction(1,1);
 }
 
 // SUBSTRACT
-Fraction operator- (const Fraction& frac1, const Fraction& frac2){
+const Fraction Fraction::operator- (const Fraction& other) const{
     return Fraction(1,1);
 }
-Fraction operator- (const Fraction& frac1, const float& flo2){
+const Fraction Fraction::operator- ( const float& _float) const{
         return Fraction(1,1);
 }
 
-Fraction operator- (const float& flo1, const Fraction& frac2){
+const Fraction operator- (const float& flo1, const Fraction& frac2){
     return Fraction(1,1);
 }
             
 
 // MULTIPLY
-Fraction operator* (const Fraction& frac1, const Fraction& frac2){
+const Fraction Fraction::operator* (const Fraction& other) const{
     return Fraction(1,1);
 }
 
-Fraction operator* (const Fraction& frac1, const float& flo2){
+const Fraction Fraction::operator- (const float& _float) const{
     return Fraction(1,1);
 }
 
-Fraction operator* (const float& flo1, const Fraction& frac2){
+const Fraction operator* (const float& flo1, const Fraction& frac2){
     return Fraction(1,1);
 }
 
 // DIVIDE
-Fraction operator/ (const Fraction& frac1, const Fraction& frac2){
+const Fraction Fraction::operator/ (const Fraction& other) const{
     return Fraction(1,1);
 }
-Fraction operator/ (const Fraction& frac1, const float& flo2){
+const Fraction Fraction::operator/ (const float& _float) const{
     return Fraction(1,1);
 }
-Fraction operator/ (const float& flo1, const Fraction& frac2){
+const Fraction operator/ (const float& flo1, const Fraction& frac2){
     return Fraction(1,1);
 }
 
 
 // EQUALITY COMPARISON
-bool operator==(const Fraction& frac1, const Fraction& frac2){
-    return frac1.numerator==frac2.numerator && frac1.denominator==frac2.denominator;
+bool Fraction::operator==(const Fraction& other){
+    return this->numerator==other.numerator && this->denominator==other.denominator;
     // add another case when one of the fractions aren't reduced
 }
 
-bool operator==(const Fraction& frac1, const float& flo2){
+bool Fraction::operator==(const float& float_){
     return true;
 }
 
@@ -130,11 +139,11 @@ bool operator==(const float& flo2, const Fraction& frac2){
 
 
 // BIGGER COMPARISON
-bool operator> (const Fraction& frac1, const Fraction& frac2){
-    return frac1.numerator>frac2.numerator;
+bool Fraction::operator> (const Fraction& other){
+    return numerator>other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool operator> (const Fraction& frac1, const float& flo2){
+bool Fraction::operator> ( const float& float_){
     return true;
 }
 bool operator> (const float& flo1, const Fraction& frac2){
@@ -142,11 +151,11 @@ bool operator> (const float& flo1, const Fraction& frac2){
 }
 
 // SMALLER COMPARISON
-bool operator< (const Fraction& frac1, const Fraction& frac2){
-     return frac1.numerator<frac2.numerator;
+bool Fraction::operator< (const Fraction& other){
+     return numerator<other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool operator< (const Fraction& frac1, const float& flo2){
+bool Fraction::operator< (const float& float_){
     return true;
 }
 bool operator< (const float& flo1, const Fraction& frac2){
@@ -155,11 +164,11 @@ bool operator< (const float& flo1, const Fraction& frac2){
 
 // BIGGER-EQUAL COMPARISON
 
-bool operator>= (const Fraction& frac1, const Fraction& frac2){
-    return frac1.numerator>=frac2.numerator;
+bool Fraction::operator>= (const Fraction& other){
+    return numerator>=other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool operator>= (const Fraction& frac1, const float& flo2){
+bool Fraction::operator>= ( const float& float_){
         return true;
 }
 bool operator>= (const float& flo1, const Fraction& frac2){
@@ -167,11 +176,11 @@ bool operator>= (const float& flo1, const Fraction& frac2){
 }
 
 // SMALLER-EQUAL COMPARISON
-bool operator<= (const Fraction& frac1, const Fraction& frac2){
-     return frac1.numerator<=frac2.numerator;
+bool  Fraction::operator<= (const Fraction& other){
+     return numerator<=other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool operator<= (const Fraction& frac1, const float& flo2){
+bool  Fraction::operator<= (const float& float_){
      return true;
     // add another case when one of the fractions aren't reduced
 }

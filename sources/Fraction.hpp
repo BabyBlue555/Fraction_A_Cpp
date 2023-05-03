@@ -7,6 +7,8 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 namespace ariel{
@@ -36,52 +38,59 @@ namespace ariel{
             }
 
             // returns the Least common multiple
-            int lcm(const Fraction& frac1, const Fraction& frac2);
+            //int lcm(int denom1, int denom2 );
             // returns the greatest common divisor of the fractions
             // int gcd(int num,int denom);
             // returns the Least common multiple
-            Fraction reduced();
+            void reduced(int& numerator, int& denominator);
+
+            // FRIEND FUNCTION - usually , functions that their first argument is not
+            // from the type of the class.
+            // functions like operator+ that takes as arguments 2 fractions shouldn't be 
+            // in contrast, functions of assignment such as += have to be friend functions 
+            // since they return a reference because the value of the object has changed.
 
             // add
-            friend Fraction operator+ (const Fraction& frac1, const Fraction& frac2);
-            friend Fraction operator+ (const Fraction& frac1, const float& flo2);
-            friend Fraction operator+ (const float& flo1, const Fraction& frac2);
+            const Fraction operator+ (const Fraction& other) const;
+            const Fraction operator+ (const float& num) const;
+            //      const Fraction operator+(const float& num) const;
+            friend const Fraction operator+ (const float& flo1, const Fraction& frac2);
 
             // substract
-            friend Fraction operator- (const Fraction& frac1, const Fraction& frac2);
-            friend Fraction operator- (const Fraction& frac1, const float& flo2);
-            friend Fraction operator- (const float& flo1, const Fraction& frac2);
+            const Fraction operator- (const Fraction& other) const;
+            const Fraction operator- (const float& _float) const;
+            friend const Fraction operator- (const float& flo1, const Fraction& frac2);
             
            // multiply
-            friend Fraction operator* (const Fraction& frac1, const Fraction& frac2);
-            friend Fraction operator* (const Fraction& frac1, const float& flo2);
-            friend Fraction operator* (const float& flo1, const Fraction& frac2);
+            const Fraction operator* (const Fraction& other) const;
+            const Fraction operator* (const float& _float) const;
+            friend const Fraction operator* (const float& flo1, const Fraction& frac2);
 
             //divide
-            friend Fraction operator/ (const Fraction& frac1, const Fraction& frac2);
-            friend Fraction operator/ (const Fraction& frac1, const float& flo2);
-            friend Fraction operator/ (const float& flo1, const Fraction& frac2);
+            const Fraction operator/ (const Fraction& other) const;
+            const Fraction operator/ (const float& _float) const;
+            friend const Fraction operator/ (const float& flo1, const Fraction& frac2);
 
             // comparison equality
-            friend bool operator==(const Fraction& frac1, const Fraction& frac2);
-            friend bool operator==(const Fraction& frac1, const float& flo2);
+            bool operator==(const Fraction& other);
+            bool operator==(const float& _float);
             friend bool operator==(const float& flo2, const Fraction& frac2);
 
             //comparison operations (>,<,>=,<=)
-            friend bool operator> (const Fraction& frac1, const Fraction& frac2);
-            friend bool operator> (const Fraction& frac1, const float& flo2);
+            bool operator> (const Fraction& other);
+            bool operator> (const float& float_);
             friend bool operator> (const float& flo2, const Fraction& frac2);
 
-            friend bool operator< (const Fraction& frac1, const Fraction& frac2);
-            friend bool operator< (const Fraction& frac1, const float& flo2);
+            bool operator< (const Fraction& other);
+            bool operator< (const float& float_);
             friend bool operator< (const float& flo2, const Fraction& frac2);
 
-            friend bool operator>= (const Fraction& frac1, const Fraction& frac2);
-            friend bool operator>=(const Fraction& frac1, const float& flo2);
+            bool operator>= (const Fraction& other);
+            bool operator>=(const float& float_);
             friend bool operator>= (const float& flo2, const Fraction& frac2);
 
-            friend bool operator<= (const Fraction& frac1, const Fraction& frac2);
-            friend bool operator<= (const Fraction& frac1, const float& flo2);
+            bool operator<= (const Fraction& other);
+            bool operator<= ( const float& float_);
             friend bool operator<= (const float& flo2, const Fraction& frac2);
 
 
@@ -130,7 +139,9 @@ namespace ariel{
 
             //The >> operator to read a fraction from an input stream 
             //by taking two integers as input.
-            friend std::istream& operator>> (std::istream& input , Fraction& frac);
+            friend std::istream& operator>> (std::istream& is , Fraction& fraction);
+
+
 
 
 
