@@ -17,8 +17,6 @@ TEST_CASE("1-Good initialization in constructor"){
     CHECK((typeid(frac.getNuminator()).name()==typeid(int).name() && typeid(frac.getDenom()).name()==typeid(int).name()));
     // numinator= 25, denominator = 100 - not in reduced form 
     CHECK((typeid(flt.getNuminator()).name()==typeid(int).name() && typeid(flt.getDenom()).name()==typeid(int).name()));
-    // CHECK(gcd();
-    // CHECK(__gcd(frac.getNuminator(),frac.getDenom())==1);
 }
 
 
@@ -71,8 +69,8 @@ TEST_CASE("5-CHECK * operation reduced form"){
     CHECK(((frac4.getNuminator()==2) && (frac4.getDenom()==15)));
     CHECK(((frac5.getNuminator()==3) && (frac4.getDenom()==10)));
     CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
-       CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
-       CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
+    CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+    CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
 
 }
 
@@ -89,10 +87,9 @@ TEST_CASE("6-CHECK / operation reduced form"){
     CHECK((frac4.getNuminator()==50 && frac4.getDenom()==1));
     CHECK((frac5.getNuminator()==1 && frac5.getDenom()==150));
     CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
-       CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
-       CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
-  //  
-    
+    CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+    CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
+  
 
 }
 
@@ -185,13 +182,6 @@ TEST_CASE("11-check >= and <= operaotors"){
     CHECK(arit_frac4>=Fraction(4,3));
     CHECK_FALSE(arit_frac4<=frac);
     CHECK(arit_frac4>=frac);
-  
-
-    
-    
-
-
-
 
 
 }
