@@ -35,11 +35,13 @@ Fraction::Fraction(float flt){
     int power=1;
     float cpy=flt;
    
-    while(std::fmod(cpy, 1.0)){ // as long as the decimal value isn't 0 
+    while(std::fmod(cpy, 1.0)  && power < 1000){ // as long as the decimal value isn't 0 
+    // the limitation on power is because we want to have up to 3 digits beyond the desimal point 
+    //&& number != (int)number
         power *=10;
         cpy*=10;
     }
-    this->numerator=flt*power;
+    this->numerator=cpy;
     this->denominator=power;
 }
 
@@ -180,13 +182,21 @@ bool operator<= (const float& frac1, const Fraction& flo2){
 
 //print a fraction to an output stream
 std::ostream& operator<< (std::ostream& output, const Fraction& frac){
-    //return cout<<"hello";
-    return (output << frac.numerator << '+' << frac.denominator<< 'i');
+    output << frac.numerator << '/' << frac.denominator;
+    return output;
 }
 
-//read a fraction from an input stream
-std::istream& operator>> (std::istream& input , Fraction& frac){
-    //  Fraction input_=Fraction(1,1);
-      return input;
-}
 
+ istream& operator>>(istream& is, Fraction& fraction) {
+        int numerator, denominator;
+        char slash;
+
+        is >> numerator >> slash >> denominator;
+
+        if (slash != '/')
+            throw invalid_argument("Invalid input");
+
+        fraction = Fraction(numerator, denominator);
+
+        return is;
+    }
