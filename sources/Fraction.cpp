@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -53,73 +52,80 @@ Fraction::Fraction(float flt){
 //     return _lcm ;
 // }
 
-void Fraction::reduced(int& numerator, int& denominator){
-int gcd=__gcd(abs(numerator), abs(denominator));
-                numerator /= gcd;
-                denominator /=gcd;
+void Fraction::reduced(int& numerator, int& denominator) const{
+    int gcd=__gcd(abs(numerator), abs(denominator));
+    numerator /= gcd;
+    denominator /=gcd;
 }
 
 
 
 // ADD
 const Fraction Fraction::operator+ (const Fraction& other) const{
-    // return Fraction(c1.numinator+c2.numinator,)
-    // int _lcm=lcm(frac1.getDenom(), frac2.getDenom());
-    // int new_numr=frac1.getNuminator()*(_lcm/frac1.getDenom())+frac2.getNuminator()*(_lcm/frac2.getDenom());
-    // int new_denom=_lcm;
-    
-    return Fraction(1,1);
-    //reduced(new_numr,new_denom);
+    int new_numr= (this->numerator*other.denominator)+(other.numerator*this->denominator);
+    int new_denom=this->denominator*other.denominator;
+    reduced(new_numr,new_denom);
+    return Fraction(new_numr,new_denom);
  }
 
 const Fraction Fraction::operator+ (const float& _float) const{
-    // return Complex(_re + other._re, _im + other._im);
-    //return Fraction(c1.numinator+c)
+    // use in the above + function
+    // this is a pointer, *this is the value i.e the fraction
+    return *this+Fraction(_float);
     
-    return Fraction(1,1);
+    //return Fraction(1,1);
 
 
 }
 
 const Fraction operator+ (const float& flo1, const Fraction& frac2){
-    return Fraction(1,1);
+    return Fraction(flo1)+frac2;
 }
 
 // SUBSTRACT
 const Fraction Fraction::operator- (const Fraction& other) const{
-    return Fraction(1,1);
+    int new_numr= (this->numerator*other.denominator)-(other.numerator*this->denominator);
+    int new_denom=this->denominator*other.denominator;
+    reduced(new_numr,new_denom);
+    return Fraction(new_numr,new_denom);
 }
 const Fraction Fraction::operator- ( const float& _float) const{
-        return Fraction(1,1);
+    return *this-Fraction(_float);
 }
 
 const Fraction operator- (const float& flo1, const Fraction& frac2){
-    return Fraction(1,1);
+    return Fraction(flo1)-frac2;
 }
             
 
 // MULTIPLY
 const Fraction Fraction::operator* (const Fraction& other) const{
-    return Fraction(1,1);
+    int new_numr= this->numerator*other.numerator;
+    int new_denom=this->denominator*other.denominator;
+    reduced(new_numr,new_denom);
+    return Fraction(new_numr,new_denom);
 }
 
 const Fraction Fraction::operator* (const float& _float) const{
-    return Fraction(1,1);
+    return (*this)*Fraction(_float);
 }
 
 const Fraction operator* (const float& flo1, const Fraction& frac2){
-    return Fraction(1,1);
+    return Fraction(flo1)*frac2;;
 }
 
 // DIVIDE
 const Fraction Fraction::operator/ (const Fraction& other) const{
-    return Fraction(1,1);
+    int new_numr= (this->numerator*other.denominator);
+    int new_denom=other.numerator*this->denominator;
+    reduced(new_numr,new_denom);
+    return Fraction(new_numr,new_denom);
 }
 const Fraction Fraction::operator/ (const float& _float) const{
-    return Fraction(1,1);
+    return *this/Fraction(_float);
 }
 const Fraction operator/ (const float& flo1, const Fraction& frac2){
-    return Fraction(1,1);
+    return Fraction(flo1)/frac2;
 }
 
 
