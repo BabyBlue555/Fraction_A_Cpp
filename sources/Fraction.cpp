@@ -103,7 +103,7 @@ const Fraction Fraction::operator* (const Fraction& other) const{
     return Fraction(1,1);
 }
 
-const Fraction Fraction::operator- (const float& _float) const{
+const Fraction Fraction::operator* (const float& _float) const{
     return Fraction(1,1);
 }
 
@@ -124,26 +124,26 @@ const Fraction operator/ (const float& flo1, const Fraction& frac2){
 
 
 // EQUALITY COMPARISON
-bool Fraction::operator==(const Fraction& other){
+bool Fraction::operator==(const Fraction& other) const{
     return this->numerator==other.numerator && this->denominator==other.denominator;
     // add another case when one of the fractions aren't reduced
 }
 
-bool Fraction::operator==(const float& float_){
+bool Fraction::operator==(const float& float_) const{
     return true;
 }
 
-bool operator==(const float& flo2, const Fraction& frac2){
+bool operator==(const float& flo2, const Fraction& frac2) {
     return true;
 }
 
 
 // BIGGER COMPARISON
-bool Fraction::operator> (const Fraction& other){
+bool Fraction::operator> (const Fraction& other) const{
     return numerator>other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool Fraction::operator> ( const float& float_){
+bool Fraction::operator> ( const float& float_) const{
     return true;
 }
 bool operator> (const float& flo1, const Fraction& frac2){
@@ -151,11 +151,11 @@ bool operator> (const float& flo1, const Fraction& frac2){
 }
 
 // SMALLER COMPARISON
-bool Fraction::operator< (const Fraction& other){
+bool Fraction::operator< (const Fraction& other) const{
      return numerator<other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool Fraction::operator< (const float& float_){
+bool Fraction::operator< (const float& float_) const{
     return true;
 }
 bool operator< (const float& flo1, const Fraction& frac2){
@@ -164,11 +164,11 @@ bool operator< (const float& flo1, const Fraction& frac2){
 
 // BIGGER-EQUAL COMPARISON
 
-bool Fraction::operator>= (const Fraction& other){
+bool Fraction::operator>= (const Fraction& other) const{
     return numerator>=other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool Fraction::operator>= ( const float& float_){
+bool Fraction::operator>= ( const float& float_) const{
         return true;
 }
 bool operator>= (const float& flo1, const Fraction& frac2){
@@ -176,11 +176,11 @@ bool operator>= (const float& flo1, const Fraction& frac2){
 }
 
 // SMALLER-EQUAL COMPARISON
-bool  Fraction::operator<= (const Fraction& other){
+bool Fraction::operator<= (const Fraction& other) const{
      return numerator<=other.numerator;
     // add another case when one of the fractions aren't reduced
 }
-bool  Fraction::operator<= (const float& float_){
+bool Fraction::operator<= (const float& float_) const{
      return true;
     // add another case when one of the fractions aren't reduced
 }
@@ -196,16 +196,16 @@ std::ostream& operator<< (std::ostream& output, const Fraction& frac){
 }
 
 
- istream& operator>>(istream& is, Fraction& fraction) {
+ istream& operator>>(istream& input, Fraction& fraction) {
         int numerator, denominator;
         char slash;
 
-        is >> numerator >> slash >> denominator;
+        input >> numerator >> slash >> denominator;
 
         if (slash != '/')
             throw invalid_argument("Invalid input");
 
         fraction = Fraction(numerator, denominator);
 
-        return is;
+        return input;
     }

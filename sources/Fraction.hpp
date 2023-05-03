@@ -72,25 +72,25 @@ namespace ariel{
             friend const Fraction operator/ (const float& flo1, const Fraction& frac2);
 
             // comparison equality
-            bool operator==(const Fraction& other);
-            bool operator==(const float& _float);
+            bool operator==(const Fraction& other) const ;
+            bool operator==(const float& _float) const;
             friend bool operator==(const float& flo2, const Fraction& frac2);
 
             //comparison operations (>,<,>=,<=)
-            bool operator> (const Fraction& other);
-            bool operator> (const float& float_);
+            bool operator> (const Fraction& other) const;
+            bool operator> (const float& float_) const;
             friend bool operator> (const float& flo2, const Fraction& frac2);
 
-            bool operator< (const Fraction& other);
-            bool operator< (const float& float_);
+            bool operator< (const Fraction& other) const;
+            bool operator< (const float& float_) const;
             friend bool operator< (const float& flo2, const Fraction& frac2);
 
-            bool operator>= (const Fraction& other);
-            bool operator>=(const float& float_);
+            bool operator>= (const Fraction& other) const;
+            bool operator>=(const float& float_) const;
             friend bool operator>= (const float& flo2, const Fraction& frac2);
 
-            bool operator<= (const Fraction& other);
-            bool operator<= ( const float& float_);
+            bool operator<= (const Fraction& other) const;
+            bool operator<= ( const float& float_) const;
             friend bool operator<= (const float& flo2, const Fraction& frac2);
 
 
@@ -139,7 +139,7 @@ namespace ariel{
 
             //The >> operator to read a fraction from an input stream 
             //by taking two integers as input.
-            friend std::istream& operator>> (std::istream& is , Fraction& fraction);
+            friend std::istream& operator>> (std::istream& input , Fraction& fraction);
 
 
 
