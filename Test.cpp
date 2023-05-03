@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include "sources/Fraction.hpp"
 #include <iostream>
-#include <algorithm> // For __gcd; taken from the internet
+#include <algorithm> // For __gcd; 
 #include <typeinfo> // For typeid(...)
 #include <sstream>
 using namespace ariel;
@@ -17,7 +17,8 @@ TEST_CASE("1-Good initialization in constructor"){
     CHECK((typeid(frac.getNuminator()).name()==typeid(int).name() && typeid(frac.getDenom()).name()==typeid(int).name()));
     // numinator= 25, denominator = 100 - not in reduced form 
     CHECK((typeid(flt.getNuminator()).name()==typeid(int).name() && typeid(flt.getDenom()).name()==typeid(int).name()));
-    
+    // CHECK(gcd();
+    // CHECK(__gcd(frac.getNuminator(),frac.getDenom())==1);
 }
 
 
@@ -36,6 +37,10 @@ TEST_CASE("3-CHECK + operation reduced form"){
        CHECK(((frac3.getNuminator()==5) && (frac3.getDenom()==4)));
        CHECK(((frac4.getNuminator()==9) && (frac4.getDenom()==10)));
        CHECK(((frac5.getNuminator()==23) && (frac4.getDenom()==20)));
+       CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
+       CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+       CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
+
 
 }
 
@@ -49,6 +54,9 @@ TEST_CASE("4-CHECK - operation reduced form"){
     CHECK(((frac3.getNuminator()==-5) && (frac3.getDenom()==12)));
     CHECK(((frac4.getNuminator()==-1) && (frac4.getDenom()==15)));
     CHECK(((frac5.getNuminator()==-7) && (frac4.getDenom()==20)));
+    CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
+    CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+    CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
 
 }
 
@@ -62,6 +70,9 @@ TEST_CASE("5-CHECK * operation reduced form"){
     CHECK(((frac3.getNuminator()==1) && (frac3.getDenom()==4)));
     CHECK(((frac4.getNuminator()==2) && (frac4.getDenom()==15)));
     CHECK(((frac5.getNuminator()==3) && (frac4.getDenom()==10)));
+    CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
+       CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+       CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
 
 }
 
@@ -77,6 +88,9 @@ TEST_CASE("6-CHECK / operation reduced form"){
     CHECK((frac3.getNuminator()==1 && frac3.getDenom()==3));
     CHECK((frac4.getNuminator()==50 && frac4.getDenom()==1));
     CHECK((frac5.getNuminator()==1 && frac5.getDenom()==150));
+    CHECK(__gcd(frac3.getNuminator(),frac3.getDenom())==1);
+       CHECK(__gcd(frac4.getNuminator(),frac4.getDenom())==1);
+       CHECK(__gcd(frac5.getNuminator(),frac5.getDenom())==1);
   //  
     
 
@@ -126,7 +140,7 @@ TEST_CASE("9- CHECK EQUALITY when not reduced or float"){
 
 TEST_CASE("10-check < and > operaotors"){
     Fraction frac(1,3);
-    float flt= 0.25;
+    float flt= 0.25; 
     Fraction arit_frac1=flt+frac;
     Fraction arit_frac2=flt-frac; // negative
     Fraction arit_frac3=frac*flt;
@@ -135,7 +149,7 @@ TEST_CASE("10-check < and > operaotors"){
     CHECK(flt<frac);
     //with aritmentic operations
     CHECK(frac<arit_frac1);
-    CHECK_FALSE(frac>arit_frac1);
+    CHECK_FALSE(frac>arit_frac1); // since arit_frac1=1/4+1/3=7/12
     CHECK(arit_frac2<flt); // since arit_frac2=1/4-1/3=-1/12
     CHECK_FALSE(arit_frac2>flt);
     CHECK_FALSE(flt<arit_frac3); // since arit_frac3=1/3*1/4=1/12
@@ -151,6 +165,32 @@ TEST_CASE("10-check < and > operaotors"){
 
 
 TEST_CASE("11-check >= and <= operaotors"){
+    Fraction frac(1,3);
+    float flt= 0.25;
+    Fraction arit_frac1=flt+frac;
+    Fraction arit_frac2=flt-frac; // negative
+    Fraction arit_frac3=frac*flt;
+    Fraction arit_frac4=frac/flt;
+    CHECK(frac<=arit_frac1);
+    CHECK(arit_frac1<=Fraction(7,12));
+    CHECK_FALSE(frac>=arit_frac1);
+    CHECK(arit_frac2<=flt); // since arit_frac2=1/4-1/3=-1/12
+    CHECK(arit_frac2<=Fraction(-1,12));
+    CHECK_FALSE(arit_frac2>=flt);
+    CHECK_FALSE(flt<=arit_frac3); // since arit_frac3=1/3*1/4=1/12
+    CHECK(flt>=arit_frac3);
+    CHECK(arit_frac3>=Fraction(1,12));
+    CHECK_FALSE(arit_frac4<=flt);// since arit_frac4=4/3
+    CHECK(arit_frac4>=flt);
+    CHECK(arit_frac4>=Fraction(4,3));
+    CHECK_FALSE(arit_frac4<=frac);
+    CHECK(arit_frac4>=frac);
+  
+
+    
+    
+
+
 
 
 
@@ -174,6 +214,9 @@ TEST_CASE("12-check postfix"){
     CHECK(frac1--==frac2); // both are 1/3 now
     CHECK_FALSE(frac1==frac2); //frac1=-2/3,frac2=1/3
 
+    CHECK(__gcd(frac1.getNuminator(),frac1.getDenom())==1);
+    CHECK(__gcd(frac2.getNuminator(),frac2.getDenom())==1);
+
 }
 
 
@@ -193,6 +236,10 @@ TEST_CASE("13-check prefix"){
     CHECK_FALSE(frac1==frac2--); // frac1=7/3,frac2=10/3
     CHECK_FALSE(frac1==--frac2); // frac1=7/3,frac2=4/3
     CHECK(--frac1==frac2); // both 4/3
+
+    CHECK(__gcd(frac1.getNuminator(),frac1.getDenom())==1);
+    CHECK(__gcd(frac2.getNuminator(),frac2.getDenom())==1);
+  
 }
 
 
